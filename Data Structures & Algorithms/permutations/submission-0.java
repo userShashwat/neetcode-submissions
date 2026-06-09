@@ -1,29 +1,24 @@
 class Solution {
-    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        Arrays.sort(candidates);
-        List<List<Integer>> ans = new ArrayList<>();
-        dfs(candidates, target, ans, new ArrayList<>(), 0, 0);
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans=new ArrayList<>();
+        dfs(ans,new ArrayList<>(),nums,new boolean[nums.length]);
         return ans;
     }
-    public void dfs(int[] arr, int t,
-                    List<List<Integer>> ans,
-                    List<Integer> tm,
-                    int ind,
-                  int total) {
-        if (total == t) {
-            ans.add(new ArrayList<>(tm));
-            return;
+    public void dfs(List<List<Integer>> ans,List<Integer> temp
+    ,int[] nums,boolean[] flag){
+
+        if(temp.size()==nums.length){
+           ans.add(new ArrayList<>(temp));
+           return;
         }
-        for (int i = ind; i < arr.length; i++) {
-            if (total + arr[i] > t)
-                break;
-            if (i > ind && arr[i] == arr[i - 1])
-                continue;
-            tm.add(arr[i]);
-            dfs(arr, t, ans, tm,
-                i + 1,
-                total + arr[i]);
-            tm.remove(tm.size() - 1);
+        for(int i=0;i<nums.length;i++){
+           if(!flag[i]){
+            temp.add(nums[i]);
+            flag[i]=true;
+            dfs(ans,temp,nums,flag); 
+            temp.remove(temp.size()-1);
+            flag[i]=false;
         }
+      }
     }
 }
